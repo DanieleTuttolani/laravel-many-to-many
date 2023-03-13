@@ -13,7 +13,7 @@
                   <label for="title" class="col-form-label">Titolo</label>
                 </div>
                 <div class="col">
-                  <input type="text" id="title" name="title" class="form-control" value="" aria-describedby="passwordHelpInline">
+                  <input required type="text" id="title" name="title" class="form-control" value="" aria-describedby="passwordHelpInline">
                 </div>
                 {{-- type --}}
                 <div class="col-3">
@@ -55,7 +55,7 @@
                   <label for="img" class="col-form-label">File img</label>
                 </div>
                 <div class="col">
-                  <input type="file" id="img" name='img' class="form-control"aria-describedby="passwordHelpInline">
+                  <input required type="file" id="img" name='img' class="form-control"aria-describedby="passwordHelpInline">
                 </div>
               </div>
               {{-- collab --}}
@@ -66,9 +66,16 @@
                 <div class="col">
                   <input type="text" id="collab" name="collab" class="form-control" value="" aria-describedby="passwordHelpInline">
                 </div>
+                <div>
+                  @foreach ($languages as $language)
+                  <input type="checkbox" name="lang[]" @checked(in_array($language->id , $project_lang)) id="lang-{{$language->name}}" value="{{$language->id}}  ">
+                  <label for="lang">{{$language->name}}</label>
+                  @endforeach
+                </div>
               </div>
 
               <button class="btn btn-success">invia</button>
+              <a href="{{route('admin.projects.index')}}" class="btn btn-secondary">Indetro</a>
         </form>
         
     </div>

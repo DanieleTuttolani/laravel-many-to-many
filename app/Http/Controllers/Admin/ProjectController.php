@@ -28,8 +28,10 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all();
+        $languages = Language::all();
+        $project_lang = [];
 
-        return view('admin.projects.create', compact('types'));
+        return view('admin.projects.create', compact('types', 'languages', 'project_lang'));
     }
 
     public function edit(Project $project)
@@ -37,7 +39,8 @@ class ProjectController extends Controller
         $types = Type::all();
         $languages = Language::all();
 
-        return view('admin.projects.edit', compact('project', 'types', 'languages'));
+        $project_lang = $project->Languages->pluck('id')->toArray();
+        return view('admin.projects.edit', compact('project', 'types', 'languages', 'project_lang'));
     }
 
     public function update(Request $request, Project $project)
@@ -51,7 +54,8 @@ class ProjectController extends Controller
 
         if (Arr::exists($data, 'lang')) {
             $project->Languages()->sync($data['lang']);
-        }
+        } else
+            $project->Languages()->detach();
         return to_route('admin.projects.show', compact('project'));
     }
     public function store(Request $request, Project $new_proj)
@@ -65,6 +69,9 @@ class ProjectController extends Controller
         $new_proj->fill($data);
         $new_proj->save();
 
+        if (count($data['lang'])) {
+            $new_proj->Languages()->attach($data['lang']);
+        }
         return to_route('admin.projects.index', compact('new_proj'));
     }
     public function destroy(Project $project)

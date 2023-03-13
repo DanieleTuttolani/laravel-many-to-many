@@ -14,7 +14,7 @@
                   <label for="input-title" class="col-form-label">Titolo</label>
                 </div>
                 <div class="col">
-                  <input type="text" id="title" name="title" class="form-control" value="{{$project->title}}" aria-describedby="passwordHelpInline">
+                  <input required type="text" id="title" name="title" class="form-control" value="{{$project->title}}" aria-describedby="passwordHelpInline">
                 </div>
                 <div class="col-3">
                   <select id="type_id" name="type_id" class="form-control">
@@ -23,6 +23,12 @@
                     <option value="{{$type->id}}">{{$type->title}}</option>
                     @endforeach
                   </select>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="1" id="showCase" name="showCase">
+                  <label class="form-check-label" for="flexCheckIndeterminate">Mostra in vetrina</label>
                 </div>
               </div>
               {{-- descrzione --}}
@@ -49,7 +55,7 @@
                   <label for="input-title" class="col-form-label">File immagini</label>
                 </div>
                 <div class="col">
-                  <input type="file" id="img" name="img" class="form-control" value="{{$project->img}}" aria-describedby="passwordHelpInline">
+                  <input required type="file" id="img" name="img" class="form-control" value="{{$project->img}}" aria-describedby="passwordHelpInline">
                 </div>
               </div>
               {{-- collab --}}
@@ -62,13 +68,14 @@
                 </div>
                 <div>
                   @foreach ($languages as $language)
-                  <input type="checkbox" name="lang[]" id="lang-{{$language->name}}" value="{{$language->id}}">
+                  <input type="checkbox" name="lang[]" @checked(in_array($language->id , $project_lang)) id="lang-{{$language->name}}" value="{{$language->id}}  ">
                   <label for="lang">{{$language->name}}</label>
                   @endforeach
                 </div>
               </div>
 
               <button class="btn btn-success">invia</button>
+              <a href="{{route('admin.projects.index')}}" class="btn btn-primary mx-2">indietro</a>
         </form>
         
     </div>
