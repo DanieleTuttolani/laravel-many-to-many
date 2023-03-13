@@ -1,6 +1,7 @@
+@extends('layouts.bgc_container')
 @extends('layouts.app')
-
 @section('content')
+@section('c-content')
 <h1>Modifica</h1>
 <div class="my-container container">
     <div class="">
@@ -59,6 +60,12 @@
                 <div class="col">
                   <input type="text" id="collab" name="collab" class="form-control" value="{{$project->collab}}" aria-describedby="passwordHelpInline">
                 </div>
+                <div>
+                  @foreach ($languages as $language)
+                  <input type="checkbox" name="lang[]" id="lang-{{$language->name}}" value="{{$language->id}}">
+                  <label for="lang">{{$language->name}}</label>
+                  @endforeach
+                </div>
               </div>
 
               <button class="btn btn-success">invia</button>
@@ -66,4 +73,5 @@
         
     </div>
 </div>
+@endsection
 @endsection

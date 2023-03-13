@@ -16,6 +16,11 @@
                 <li class="my-4">Img-str:  {{$proj->img}} </li>
                 <li class="my-4">Collaboratori:  {{$proj->collab}} </li>
                 <li class="my-4">Gruppo:  {{$proj->Type?->title}} </li>
+                <li class="my-4">Tecnologie:  
+                @foreach ($proj->languages as $lang)
+                    {{$lang->name}} 
+                @endforeach
+                </li>
             </ul>
             <div class="text-center">
                 <i class="fa-solid fa-hand-point-up fa-bounce fs-2"></i>
