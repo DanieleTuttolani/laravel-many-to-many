@@ -3,6 +3,13 @@
 
 @section('content')
 <div class="my-bgc vh-100 p-5">
+    
+    @if (session('updated'))
+    <div class="alert alert-success">
+        {{session('updated')}}
+    </div>
+    @endif
+    
     <div class="my-container mx-auto  bg-secondary text-light p-3 rounded" style="max-width: 700px">
         <div class="col">
             <p>

@@ -6,6 +6,12 @@
 
 <div class="container">
     <a href="{{route('admin.projects.create')}}" class="btn btn-primary"> crea progetto</a>
+    
+    @if (session('created'))
+    <div class="alert alert-success">
+        {{session('created')}}
+    </div>
+    @endif
     @forelse ($projects as $proj)
     <a href="{{url('admin/projects/show' , $proj->id)}}">
         <div class="col rounded p-4 bg-primary m-5 text-light">

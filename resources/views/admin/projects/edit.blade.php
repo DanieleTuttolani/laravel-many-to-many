@@ -3,7 +3,7 @@
 @section('content')
 @section('c-content')
 <h1>Modifica</h1>
-<div class="my-container container">
+<div class="my-container container vh-100 py-4">
     <div class="">
         <form action="{{route('admin.projects.update' , $project->id)}}" method="POST" enctype="multipart/form-data">
             @method('PUT')

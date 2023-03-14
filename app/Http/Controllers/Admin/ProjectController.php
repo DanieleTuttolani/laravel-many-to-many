@@ -45,8 +45,30 @@ class ProjectController extends Controller
 
     public function update(Request $request, Project $project)
     {
-        Storage::delete($project->img);
         $data = $request->all();
+        $request->validate(
+            [
+                'title' => 'required|string|min:4|max:30',
+                'description' => 'required|string',
+                'proj_link' => 'required|string|',
+                'img' => 'nullable',
+                'collab' => 'required|string',
+            ],
+            [
+                'title.required' => 'il titolo del progetto è obbligatorio',
+                'title.string' => 'il titolo inserito non è valido',
+                'title.min' => 'il titolo deve avere un minimo di 4 caratteri',
+                'title.max' => 'il titolo deve avere un massimo di 30 caratteri',
+                'description.required' => 'il campo della descrizione è obbligatorio',
+                'description.string' => 'la descrizione fornita non è valida',
+                'proj_link.required' => 'il link del progetto è obbligatorio',
+                'proj_link.string' => 'il link fornito non è valido',
+                'collab.required' => 'devi specificare i collaboratori',
+                'collab.string' => 'il campo collaboratori non è valido',
+            ]
+        );
+
+        Storage::delete($project->img);
         $img_path = Storage::put('uploads', $data['img']);
         $data['img'] = $img_path;
 
@@ -56,11 +78,32 @@ class ProjectController extends Controller
             $project->Languages()->sync($data['lang']);
         } else
             $project->Languages()->detach();
-        return to_route('admin.projects.show', compact('project'));
+        return to_route('admin.projects.show', compact('project'))->with('updated', 'il progetto è stato aggiornato');
     }
     public function store(Request $request, Project $new_proj)
     {
         $data = $request->all();
+        $request->validate(
+            [
+                'title' => 'required|string|min:4|max:30',
+                'description' => 'required|string',
+                'proj_link' => 'required|string|',
+                'img' => 'nullable',
+                'collab' => 'required|string',
+            ],
+            [
+                'title.required' => 'il titolo del progetto è obbligatorio',
+                'title.string' => 'il titolo inserito non è valido',
+                'title.min' => 'il titolo deve avere un minimo di 4 caratteri',
+                'title.max' => 'il titolo deve avere un massimo di 30 caratteri',
+                'description.required' => 'il campo della descrizione è obbligatorio',
+                'description.string' => 'la descrizione fornita non è valida',
+                'proj_link.required' => 'il link del progetto è obbligatorio',
+                'proj_link.string' => 'il link fornito non è valido',
+                'collab.required' => 'devi specificare i collaboratori',
+                'collab.string' => 'il campo collaboratori non è valido',
+            ]
+        );
         $img_path = Storage::put('uploads', $data['img']);
         $data['img'] = $img_path;
         $new_proj = new Project();
@@ -72,7 +115,7 @@ class ProjectController extends Controller
         if (count($data['lang'])) {
             $new_proj->Languages()->attach($data['lang']);
         }
-        return to_route('admin.projects.index', compact('new_proj'));
+        return to_route('admin.projects.index', compact('new_proj'))->with('created', 'il progetto è stato aggiunto');
     }
     public function destroy(Project $project)
     {
